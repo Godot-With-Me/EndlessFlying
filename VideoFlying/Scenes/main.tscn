@@ -1,16 +1,59 @@
-[gd_scene load_steps=3 format=3 uid="uid://cx0pjcqpdet4n"]
+[gd_scene load_steps=10 format=3 uid="uid://cx0pjcqpdet4n"]
 
 [ext_resource type="PackedScene" uid="uid://qmypo8skp7ok" path="res://Scenes/airplane.tscn" id="1_rcvl6"]
+[ext_resource type="Script" path="res://Scenes/GameManager.gd" id="1_vsgul"]
 [ext_resource type="Texture2D" uid="uid://c77nv3twq0r" path="res://Assets/water.png" id="2_gc3ao"]
+[ext_resource type="Shader" path="res://AdditionalAssets/clouds.gdshader" id="4_n0mex"]
+[ext_resource type="PackedScene" uid="uid://cojpcfuy8o6oq" path="res://Scenes/trail.tscn" id="5_q462h"]
+
+[sub_resource type="Gradient" id="Gradient_6i6hv"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0y0x2"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5a1f0"]
+seamless = true
+color_ramp = SubResource("Gradient_6i6hv")
+noise = SubResource("FastNoiseLite_0y0x2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nqokl"]
+shader = ExtResource("4_n0mex")
+shader_parameter/density = 1.2
+shader_parameter/speed = Vector2(0.02, 0.01)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_5a1f0")
 
 [node name="main" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(44, 44)
-scale = Vector2(131.25, 131.25)
-texture = ExtResource("2_gc3ao")
+script = ExtResource("1_vsgul")
 
 [node name="Airplane" parent="." instance=ExtResource("1_rcvl6")]
 
 [node name="Camera2D" type="Camera2D" parent="Airplane"]
 zoom = Vector2(1.5, 1.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="RightWing" type="Node2D" parent="Airplane"]
+position = Vector2(-11, 21)
+
+[node name="LeftWing" type="Node2D" parent="Airplane"]
+position = Vector2(-11, -21)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Ground" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Ground"]
+texture = ExtResource("2_gc3ao")
+
+[node name="Clouds" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(1.5, 1.5)
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground/Clouds"]
+material = SubResource("ShaderMaterial_nqokl")
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Line2D" parent="." node_paths=PackedStringArray("node") instance=ExtResource("5_q462h")]
+node = NodePath("../Airplane/RightWing")
+
+[node name="Line2D2" parent="." node_paths=PackedStringArray("node") instance=ExtResource("5_q462h")]
+node = NodePath("../Airplane/LeftWing")
