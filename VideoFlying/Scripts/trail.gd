@@ -6,7 +6,7 @@ extends Line2D
 const MAX_POINTS : int = 200
 @onready var curve = Curve2D.new()
 
-func _process(delta):
+func _process(_delta):
 	if node.get_parent().visible:
 		curve.add_point(node.global_position)
 		if curve.get_baked_points().size() > MAX_POINTS:

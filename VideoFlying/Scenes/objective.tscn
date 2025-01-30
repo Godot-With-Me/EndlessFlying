@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cydy3ule72yv2"]
+
+[ext_resource type="Texture2D" uid="uid://dqh0lsa8swak0" path="res://Assets/objective.png" id="1_6pxc0"]
+[ext_resource type="Script" path="res://Scripts/objective.gd" id="2_7brih"]
+[ext_resource type="Texture2D" uid="uid://c4tbueusbwuhy" path="res://Assets/objective_ring.png" id="2_qce0j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ggjh1"]
+radius = 32.0156
+
+[node name="Objective" type="Sprite2D"]
+scale = Vector2(5, 5)
+texture = ExtResource("1_6pxc0")
+script = ExtResource("2_7brih")
+
+[node name="ObjectiveCircle" type="Sprite2D" parent="."]
+z_index = 200
+texture = ExtResource("2_qce0j")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ggjh1")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
