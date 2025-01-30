@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://cx0pjcqpdet4n"]
 
 [ext_resource type="PackedScene" uid="uid://qmypo8skp7ok" path="res://Scenes/airplane.tscn" id="1_rcvl6"]
-[ext_resource type="Script" path="res://Scenes/GameManager.gd" id="1_vsgul"]
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_vsgul"]
 [ext_resource type="Texture2D" uid="uid://c77nv3twq0r" path="res://Assets/water.png" id="2_gc3ao"]
 [ext_resource type="Shader" path="res://AdditionalAssets/clouds.gdshader" id="4_n0mex"]
 [ext_resource type="PackedScene" uid="uid://cojpcfuy8o6oq" path="res://Scenes/trail.tscn" id="5_q462h"]
