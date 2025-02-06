@@ -1,6 +1,7 @@
 extends Node2D
 
 const OBJECTIVE = preload("res://Scenes/objective.tscn")
+const MISSILE = preload("res://Scenes/missile.tscn")
 
 @onready var airplane = %Airplane
 
@@ -16,9 +17,10 @@ var temp
 
 func _ready():
 	spawn_new_objective()
+	spawn_new_missile(20, 20)
 
 func _process(_delta):
-	print(str(airplane.global_position) + " " + str(temp.global_position))
+	#print(str(airplane.global_position) + " " + str(temp.global_position))
 	var screen_max_size = max(get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y)
 	
 	ground.motion_mirroring = Vector2(screen_max_size, screen_max_size)
@@ -45,3 +47,17 @@ func spawn_new_objective():
 func objective_done():
 	spawn_new_objective()
 	score += 1
+	get_tree().call_group("missile", "death_timer_start")
+	spawn_new_missile(3, 15)
+	
+func spawn_new_missile(_var1, _var2):
+	for i in randi_range(_var1, _var2):
+		randomize()
+		var instance = MISSILE.instantiate()
+		add_child(instance)
+		
+		var direction = randf() * TAU
+		var distance = randf_range(1000.0, 2000.0)
+		var offset = Vector2.from_angle(direction) * distance
+		
+		instance.global_position = airplane.global_position + offset

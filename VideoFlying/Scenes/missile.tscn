@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://oct5r6fk1v2w"]
+
+[ext_resource type="Script" path="res://Scripts/missile.gd" id="1_acygr"]
+[ext_resource type="Texture2D" uid="uid://ciq84n0lrm582" path="res://Assets/missile.png" id="1_el3x2"]
+[ext_resource type="PackedScene" uid="uid://mf0fx77iybpg" path="res://Scenes/explosion.tscn" id="3_vmiku"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3q441"]
+size = Vector2(14, 4)
+
+[sub_resource type="Gradient" id="Gradient_ags8y"]
+offsets = PackedFloat32Array(0, 0.643243, 1)
+colors = PackedColorArray(1, 0, 0.0941176, 1, 1, 0.584314, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mtg66"]
+size = Vector2(14, 4)
+
+[node name="Missile" type="CharacterBody2D" groups=["missile"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_acygr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3q441")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("1_el3x2")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite2D"]
+show_behind_parent = true
+position = Vector2(3.0598e-07, 7)
+amount = 50
+lifetime = 0.5
+local_coords = true
+direction = Vector2(0, 1)
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+scale_amount_min = 0.5
+color_ramp = SubResource("Gradient_ags8y")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_mtg66")
+
+[node name="death" type="Timer" parent="."]
+one_shot = true
+
+[node name="Explosion" parent="." instance=ExtResource("3_vmiku")]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

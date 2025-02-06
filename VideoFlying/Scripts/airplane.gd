@@ -8,6 +8,8 @@ const WHEEL_BASE = 50
 
 var steer_direction = 0.0
 
+var dead = false
+
 func _physics_process(delta):
 	get_input()
 	apply_physics(delta)
@@ -22,3 +24,12 @@ func get_input():
 func apply_physics(delta):
 	velocity = Vector2(SPEED * cos(rotation), SPEED * sin(rotation))
 	rotation += steer_direction * SPEED * delta / WHEEL_BASE
+
+func explosion():
+	if !dead:
+		dead = true
+		Engine.time_scale = 0.1
+		$Explosion.emitting = true
+		$Sprite2D.visible = false
+		$Line2D.visible = false
+		$Line2D2.visible = false
