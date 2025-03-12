@@ -4,6 +4,7 @@ const OBJECTIVE = preload("res://Scenes/objective.tscn")
 const MISSILE = preload("res://Scenes/missile.tscn")
 
 @onready var airplane = %Airplane
+@onready var canvas_layer = $CanvasLayer
 
 @onready var ground = $ParallaxBackground/Ground
 @onready var sprite_ground = $ParallaxBackground/Ground/Sprite2D
@@ -13,14 +14,11 @@ const MISSILE = preload("res://Scenes/missile.tscn")
 
 var score = 0
 
-var temp
-
 func _ready():
 	spawn_new_objective()
 	spawn_new_missile(20, 20)
 
 func _process(_delta):
-	#print(str(airplane.global_position) + " " + str(temp.global_position))
 	var screen_max_size = max(get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y)
 	
 	ground.motion_mirroring = Vector2(screen_max_size, screen_max_size)
@@ -42,7 +40,9 @@ func spawn_new_objective():
 	var active_objective = OBJECTIVE.instantiate()
 	add_child(active_objective)
 	active_objective.global_position = spawn_position
-	temp = active_objective
+	
+	canvas_layer.set_objective_pos(spawn_position)
+	print(spawn_position)
 
 func objective_done():
 	spawn_new_objective()
@@ -61,3 +61,7 @@ func spawn_new_missile(_var1, _var2):
 		var offset = Vector2.from_angle(direction) * distance
 		
 		instance.global_position = airplane.global_position + offset
+		
+		instance.set_canvas_node(canvas_layer)
+		
+		canvas_layer.add_missile(instance)

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2rvqkv357qs8"]
+
+[ext_resource type="Texture2D" uid="uid://b1nduw7v3qgne" path="res://Assets/warning.png" id="1_muhav"]
+
+[node name="TextureRect" type="TextureRect"]
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("1_muhav")

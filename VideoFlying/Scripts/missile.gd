@@ -8,6 +8,8 @@ var steering_angle
 
 var dead = false
 
+var canvas_layer
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
@@ -41,6 +43,7 @@ func _on_area_2d_body_entered(body):
 		explosion()
 
 func explosion():
+	canvas_layer.remove_missile(self)
 	dead = true
 	$CollisionShape2D.call_deferred("set_disabled", true)
 	$Explosion.emitting = true
@@ -68,3 +71,6 @@ func calculate_seperation_force():
 			force += (global_position - missile.global_position).normalized() / distance
 			
 	return force * SEPARATION_STRENGTH
+
+func set_canvas_node(node):
+	canvas_layer = node
