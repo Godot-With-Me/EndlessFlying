@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var sprite_2d = $Sprite2D
+@onready var canvas_layer = $"../CanvasLayer"
 
 const SPEED = 500
 const STEERING_ANGLE = 15
@@ -11,8 +12,9 @@ var steer_direction = 0.0
 var dead = false
 
 func _physics_process(delta):
-	get_input()
-	apply_physics(delta)
+	if !dead:
+		get_input()
+		apply_physics(delta)
 	move_and_slide()
 	
 func get_input():
@@ -33,3 +35,4 @@ func explosion():
 		$Sprite2D.visible = false
 		$Line2D.visible = false
 		$Line2D2.visible = false
+		canvas_layer.is_dead()

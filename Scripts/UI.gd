@@ -45,3 +45,15 @@ func add_missile(node):
 func remove_missile(node):
 	missiles[node].queue_free()
 	missiles.erase(node)
+
+func is_dead():
+	$DeathScreen.visible = true
+
+#RESTART
+func _on_button_pressed():
+	Engine.time_scale = 1
+	get_tree().reload_current_scene()
+
+#MAINMENU
+func _on_button_2_pressed():
+	get_tree().change_scene_to_file("res://Scenes/MainMenu.tscn")
