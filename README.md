@@ -11,6 +11,6 @@ Things in this game:
 - [x] Objective
 - [x] Missiles (Smart)
 - [x] Tracker UI
-- [ ] Main menu
+- [x] Main menu
 - [ ] Saving/Loading
 - [ ] Shop
