@@ -12,9 +12,11 @@ const MISSILE = preload("res://Scenes/missile.tscn")
 @onready var clouds = $ParallaxBackground/Clouds
 @onready var color_rect_clouds = $ParallaxBackground/Clouds/ColorRect
 
-var score = 0
-
 func _ready():
+	Global.main = self
+	Global.dead = false
+	Global.score = 0
+	Engine.time_scale = 1
 	spawn_new_objective()
 	spawn_new_missile(20, 20)
 
@@ -42,11 +44,11 @@ func spawn_new_objective():
 	active_objective.global_position = spawn_position
 	
 	canvas_layer.set_objective_pos(spawn_position)
-	print(spawn_position)
+	canvas_layer.display_score()
 
 func objective_done():
+	Global.score += 1
 	spawn_new_objective()
-	score += 1
 	get_tree().call_group("missile", "death_timer_start")
 	spawn_new_missile(3, 15)
 	
